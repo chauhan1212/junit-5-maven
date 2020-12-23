@@ -30,8 +30,6 @@ import org.junit.jupiter.api.condition.OS;
 class MathUtilsTest {
 
 	private MathUtils mathUtils;
-	TestInfo testInfo;
-	TestReporter testReporter;
 
 	@BeforeAll
 	// @BeforeAll method must be static unless the test class is annotated with
@@ -43,8 +41,6 @@ class MathUtilsTest {
 	@BeforeEach
 	void initEach(TestInfo testInfo, TestReporter testReporter) {
 		mathUtils = new MathUtils();
-		this.testInfo = testInfo;
-		this.testReporter = testReporter;
 		testReporter.publishEntry("Running " + testInfo.getDisplayName() + " with Tags :" + testInfo.getTags());
 	}
 
@@ -79,19 +75,19 @@ class MathUtilsTest {
 	@Tag("Math")
 	@DisplayName("multiply method")
 	void testMultiply() {
-		// System.out.println("Running "+ testInfo.getDisplayName() + " with Tags :" +
-		// testInfo.getTags());
-		assertAll(() -> assertEquals(0, mathUtils.multiply(1, 0)), () -> assertEquals(1, mathUtils.multiply(1, 1)),
-				() -> assertEquals(6, mathUtils.multiply(2, 3)));
+		assertAll( () -> assertEquals(0, mathUtils.multiply(1, 0)),
+				   () -> assertEquals(1, mathUtils.multiply(1, 1)),
+				   () -> assertEquals(6, mathUtils.multiply(2, 3)));
 	}
 
 	@Test
+	@DisplayName("compute Circle area")
 	void computeCircleArea() {
 		assertEquals(314.1592653589793, mathUtils.computeCircleArea(10), () -> "Should return right circle area");
 	}
 
 	@Test
-	@DisplayName("Testing divide method")
+	@DisplayName("testing divide method")
 	void testDivide() {
 		assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0),
 				"Divide should throw ArithmeticException when denominator is zero");
@@ -100,22 +96,24 @@ class MathUtilsTest {
 	@Test
 	@EnabledOnJre(JRE.JAVA_8)
 	@EnabledOnOs(OS.WINDOWS)
-	@DisplayName("Conditional Execution Test Case")
+	@DisplayName("conditional execution test case")
 	// @EnabledIf
 	// @EnabledIfEnvironmentVariable
 	// @EnabledIfSystemProperty
 	void method1() {
-		System.out.println("Condition...");
+		System.out.println("Conditional execution");
 	}
 
 	@Test
+	@DisplayName("test assumption")
 	void testAssumption() {
 		boolean isServerUp = false;
 		assumeTrue(isServerUp);
-		System.out.println("This is assumption test");
+		System.out.println("assumption test");
 	}
 
 	@RepeatedTest(3)
+	@DisplayName("test repeated add method")
 	void testRepeatedAddMethod(RepetitionInfo repetitionInfo) {
 		System.out.println("Total Repetition : " + repetitionInfo.getTotalRepetitions());
 		System.out.println("Current Repetition : " + repetitionInfo.getCurrentRepetition());
@@ -124,6 +122,7 @@ class MathUtilsTest {
 
 	@Test
 	@Disabled
+	@DisplayName("test disabled")
 	void testDisabled() {
 		fail("This method should not run");
 	}
