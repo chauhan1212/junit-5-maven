@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,9 +32,10 @@ class MathUtilsTest {
 	private MathUtils mathUtils;
 	TestInfo testInfo;
 	TestReporter testReporter;
-	
+
 	@BeforeAll
-	//@BeforeAll method must be static unless the test class is annotated with @TestInstance(Lifecycle.PER_CLASS).
+	// @BeforeAll method must be static unless the test class is annotated with
+	// @TestInstance(Lifecycle.PER_CLASS).
 	static void beforeAllInit() {
 		System.out.println("This need to run before All");
 	}
@@ -46,14 +45,14 @@ class MathUtilsTest {
 		mathUtils = new MathUtils();
 		this.testInfo = testInfo;
 		this.testReporter = testReporter;
-		testReporter.publishEntry("Running "+ testInfo.getDisplayName() + " with Tags :" + testInfo.getTags());
+		testReporter.publishEntry("Running " + testInfo.getDisplayName() + " with Tags :" + testInfo.getTags());
 	}
-	
+
 	@AfterEach
 	void afterEach() {
 		System.out.println("Cleaning up...");
 	}
-	
+
 	@AfterAll
 	static void afterAll() {
 		System.out.println("This need to run after All");
@@ -80,10 +79,10 @@ class MathUtilsTest {
 	@Tag("Math")
 	@DisplayName("multiply method")
 	void testMultiply() {
-		//System.out.println("Running "+ testInfo.getDisplayName() + " with Tags :" + testInfo.getTags());
-		assertAll(() -> assertEquals(0, mathUtils.multiply(1, 0)), 
-				  () -> assertEquals(1, mathUtils.multiply(1, 1)),
-				  () -> assertEquals(6, mathUtils.multiply(2, 3)));
+		// System.out.println("Running "+ testInfo.getDisplayName() + " with Tags :" +
+		// testInfo.getTags());
+		assertAll(() -> assertEquals(0, mathUtils.multiply(1, 0)), () -> assertEquals(1, mathUtils.multiply(1, 1)),
+				() -> assertEquals(6, mathUtils.multiply(2, 3)));
 	}
 
 	@Test
@@ -97,38 +96,36 @@ class MathUtilsTest {
 		assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0),
 				"Divide should throw ArithmeticException when denominator is zero");
 	}
-	
+
 	@Test
 	@EnabledOnJre(JRE.JAVA_8)
 	@EnabledOnOs(OS.WINDOWS)
 	@DisplayName("Conditional Execution Test Case")
-	//@EnabledIf
-	//@EnabledIfEnvironmentVariable
-	//@EnabledIfSystemProperty
+	// @EnabledIf
+	// @EnabledIfEnvironmentVariable
+	// @EnabledIfSystemProperty
 	void method1() {
 		System.out.println("Condition...");
 	}
-	
+
 	@Test
 	void testAssumption() {
 		boolean isServerUp = false;
 		assumeTrue(isServerUp);
 		System.out.println("This is assumption test");
 	}
-	
+
 	@RepeatedTest(3)
 	void testRepeatedAddMethod(RepetitionInfo repetitionInfo) {
-		System.out.println("Total Repetition : "+ repetitionInfo.getTotalRepetitions());
-		System.out.println("Current Repetition : "+ repetitionInfo.getCurrentRepetition());
+		System.out.println("Total Repetition : " + repetitionInfo.getTotalRepetitions());
+		System.out.println("Current Repetition : " + repetitionInfo.getCurrentRepetition());
 		assertEquals(2, mathUtils.add(1, 1));
 	}
-	
+
 	@Test
 	@Disabled
 	void testDisabled() {
 		fail("This method should not run");
 	}
-	
-	
 
 }
